@@ -60,6 +60,8 @@ column1 = dbc.Col(
 
             """
         ),
+        html.H2('Regressed Price', className='mb-5'), 
+        html.Div(id='prediction-content', className='lead')
     ],
     md=4,
 )
