@@ -26,9 +26,10 @@ pipeline = load("assets/pipeline.joblib")
     Input('vehicle_style', 'value'),
     Input('highway_mpg', 'value'),
     Input('city_mpg', 'value'),
-    Input('popularity', 'value')],
+    Input('popularity', 'value'),
+    Input('luxury', 'value')],
 )
-def predict(make, year, engine_fuel_type, engine_hp, engine_cylinders, transmission_type, driven_wheels, number_of_doors, vehicle_size, vehicle_style, highway_mpg, city_mpg, popularity):
+def predict(make, year, engine_fuel_type, engine_hp, engine_cylinders, transmission_type, driven_wheels, number_of_doors, vehicle_size, vehicle_style, highway_mpg, city_mpg, popularity, luxury):
     df = pd.DataFrame(
         columns=['make',
                 'year',
@@ -41,8 +42,10 @@ def predict(make, year, engine_fuel_type, engine_hp, engine_cylinders, transmiss
                 'vehicle_style',
                 'highway_mpg',
                 'city_mpg',
-                'popularity'],
-        data=[[make, year, engine_fuel_type, engine_hp, engine_cylinders, transmission_type, driven_wheels, number_of_doors, vehicle_size, vehicle_style, highway_mpg, city_mpg, popularity]]
+                'popularity',
+                'lost_mpg',
+                'luxury'],
+        data=[[make, year, engine_fuel_type, engine_hp, engine_cylinders, transmission_type, driven_wheels, number_of_doors, vehicle_size, vehicle_style, highway_mpg, city_mpg, popularity, (highway_mpg-city_mpg), luxury]]
     )
     y_pred = pipeline.predict(df)[0]
     return f'${y_pred:.2f}'
@@ -60,7 +63,7 @@ column1 = dbc.Col(
 
             """
         ),
-        html.H2('Regressed Price', className='mb-5'), 
+        html.H2('Regressed Price', className='mb-5'),
         html.Div(id='prediction-content', className='lead')
     ],
     md=4,
