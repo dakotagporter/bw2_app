@@ -14,7 +14,7 @@ pipeline = load("assets/pipeline.joblib")
 
 @app.callback(
     Output('prediction-content', 'children'),
-    [Input('make', 'value')
+    [Input('make', 'value'),
     Input('year', 'value'),
     Input('engine_fuel_type', 'value'),
     Input('engine_hp', 'value'),
